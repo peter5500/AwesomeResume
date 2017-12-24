@@ -127,7 +127,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="YZU (2011/8 - 2015/6)"
+                android:text="NEU (2011/8 - 2015/6)"
                 android:layout_weight="1"
                 android:textSize="14sp"/>
 
