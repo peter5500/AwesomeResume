@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">AwesomeResume</string>
+    <string name="section_education">Education</string>
+
 </resources>
