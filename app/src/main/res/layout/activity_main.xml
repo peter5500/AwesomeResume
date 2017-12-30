@@ -76,9 +76,10 @@
                 android:text="@string/section_education"
                 android:layout_weight="1"
                 android:textAllCaps="true"
-                android:textSize="25sp"/>
+                android:textSize="24sp"/>
 
             <ImageButton
+                android:id="@+id/add_education_btn"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_mode_edit_black_18px"

@@ -2,5 +2,10 @@
 <resources>
     <string name="app_name">履歷設計</string>
     <string name="section_education">教育經歷</string>
+    <string name="education_edit_school_hint">學校</string>
+    <string name="education_edit_major_hint">主修</string>
+    <string name="start_date">開始時間(MM/YYYY)</string>
+    <string name="end_date">結束時間(MM/YYYY)</string>
+    <string name="education_edit_courses_hint">課程</string>
 
 </resources>

@@ -1,8 +1,10 @@
 package com.example.peter.awesomeresume;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -18,6 +20,7 @@ import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
+    private static int REQ_CODE_EDUCATION_EDIT = 100;
     private BasicInfo basicInfo;
     private List<Education> educations;
 
@@ -29,8 +32,31 @@ public class MainActivity extends AppCompatActivity {
         setupUI();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        //check if the data is get back from the education_edit
+        if (resultCode == RESULT_OK && requestCode == REQ_CODE_EDUCATION_EDIT){
+            Education newEducation = data.getParcelableExtra(EducationActivityEdit.KEY_EDUCATION);
+
+            //add the new data on the UI
+            educations.add(newEducation); //data
+            setupEducationsUI();
+
+        }
+    }
+
     private void setupUI(){
         setContentView(R.layout.activity_main);
+
+        findViewById(R.id.add_education_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, EducationActivityEdit.class);
+                startActivityForResult(intent, REQ_CODE_EDUCATION_EDIT);
+            }
+        });
 
         setupBasicInfoUI();
         setupEducationsUI();
@@ -42,20 +68,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupEducationsUI(){
-        LinearLayout educationsContainer = (LinearLayout) findViewById(R.id.educations_container);
+        LinearLayout educationsContainer = (LinearLayout)findViewById(R.id.educations_container);
+        educationsContainer.removeAllViews(); //avoid to add duplicate data
         for(Education education : educations){
-            //將布局文件(education_item)轉成view
-            View view = getLayoutInflater().inflate(R.layout.education_item,null);
-            String timeSpan =  "(" + DateUtils.dateToString(education.startDate) + " ~ "
-                    + DateUtils.dateToString(education.endDate) + ")";
-            ((TextView) view.findViewById(R.id.school)).setText(education.school + timeSpan);
-            ((TextView) view.findViewById(R.id.courses)).setText(formatItems(education.courses));
 
             //將內存中的view添加到已經存在介面上的容器
-            educationsContainer.addView(view);
+            educationsContainer.addView(getEducationView(education));
         }
+    }
 
-
+    private View getEducationView(Education education){
+        //將布局文件(education_item)轉成view
+        View view = getLayoutInflater().inflate(R.layout.education_item,null);
+        String timeSpan =  "(" + DateUtils.dateToString(education.startDate) + " ~ "
+                + DateUtils.dateToString(education.endDate) + ")";
+        ((TextView) view.findViewById(R.id.education_school)).setText(education.school + timeSpan);
+        ((TextView) view.findViewById(R.id.education_courses)).setText(formatItems(education.courses));
+        return view;
     }
 
     private void fakeData(){
@@ -63,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
         basicInfo.name = "Peter Cheng";
         basicInfo.mail = "peter55005050@gmail.com";
 
+        educations = new ArrayList<>();
         Education education = new Education();
         education.school = "YZU";
         education.major = "Photonics Engineering";
@@ -73,15 +103,14 @@ public class MainActivity extends AppCompatActivity {
         education.courses.add("Data Structure");
 
         Education education2 = new Education();
-        education.school = "NEU";
-        education.major = "Information Systems";
-        education.startDate = DateUtils.stringToDate("09/2017");
-        education.endDate = DateUtils.stringToDate("06/2019");
-        education.courses = new ArrayList<>();
-        education.courses.add("Database");
-        education.courses.add("WebTool");
+        education2.school = "NEU";
+        education2.major = "Information Systems";
+        education2.startDate = DateUtils.stringToDate("09/2017");
+        education2.endDate = DateUtils.stringToDate("06/2019");
+        education2.courses = new ArrayList<>();
+        education2.courses.add("Database");
+        education2.courses.add("WebTool");
 
-        educations = new ArrayList<>();
         educations.add(education);
         educations.add(education2);
 
