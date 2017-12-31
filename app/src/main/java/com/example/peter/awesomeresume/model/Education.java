@@ -7,6 +7,7 @@ import com.example.peter.awesomeresume.util.DateUtils;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by peter on 2017/12/26.
@@ -25,8 +26,10 @@ public class Education implements Parcelable {
 
     public List<String> courses;
 
+    //each constructor already create its id
     public Education(){
-
+        //use the ID to determine whether need to edit or create
+        id = UUID.randomUUID().toString();
     }
 
     protected Education(Parcel in) {

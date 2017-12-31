@@ -38,12 +38,25 @@ public class MainActivity extends AppCompatActivity {
 
         //check if the data is get back from the education_edit
         if (resultCode == RESULT_OK && requestCode == REQ_CODE_EDUCATION_EDIT){
-            Education newEducation = data.getParcelableExtra(EducationActivityEdit.KEY_EDUCATION);
+            Education result = data.getParcelableExtra(EducationActivityEdit.KEY_EDUCATION);
 
-            //add the new data on the UI
-            educations.add(newEducation); //data
+            //edit data
+            boolean isUpdate = false;
+            for(int i = 0; i < educations.size(); ++i) {
+                Education education = educations.get(i);
+                if(education.id.equals(result.id)){
+                    educations.set(i, result);
+                    isUpdate = true;
+                    break;
+                }
+            }
+            //create data
+            if(!isUpdate){
+                //add the new data on the UI
+                educations.add(result);
+            }
+
             setupEducationsUI();
-
         }
     }
 
@@ -70,21 +83,27 @@ public class MainActivity extends AppCompatActivity {
     private void setupEducationsUI(){
         LinearLayout educationsContainer = (LinearLayout)findViewById(R.id.educations_container);
         educationsContainer.removeAllViews(); //avoid to add duplicate data
-        for(Education education : educations){
+        for(final Education education : educations){
+            //將布局文件(education_item)轉成view
+            View view = getLayoutInflater().inflate(R.layout.education_item,null);
+            String timeSpan =  "(" + DateUtils.dateToString(education.startDate) + " ~ "
+                    + DateUtils.dateToString(education.endDate) + ")";
+            ((TextView) view.findViewById(R.id.education_school)).setText(education.school + timeSpan);
+            ((TextView) view.findViewById(R.id.education_courses)).setText(formatItems(education.courses));
+
+            view.findViewById(R.id.edit_education_btn).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //put the exist data into education_edit page
+                    Intent intent = new Intent(MainActivity.this,EducationActivityEdit.class);
+                    intent.putExtra(EducationActivityEdit.KEY_EDUCATION,education);
+                    startActivityForResult(intent,REQ_CODE_EDUCATION_EDIT);
+                }
+            });
 
             //將內存中的view添加到已經存在介面上的容器
-            educationsContainer.addView(getEducationView(education));
+            educationsContainer.addView(view);
         }
-    }
-
-    private View getEducationView(Education education){
-        //將布局文件(education_item)轉成view
-        View view = getLayoutInflater().inflate(R.layout.education_item,null);
-        String timeSpan =  "(" + DateUtils.dateToString(education.startDate) + " ~ "
-                + DateUtils.dateToString(education.endDate) + ")";
-        ((TextView) view.findViewById(R.id.education_school)).setText(education.school + timeSpan);
-        ((TextView) view.findViewById(R.id.education_courses)).setText(formatItems(education.courses));
-        return view;
     }
 
     private void fakeData(){
