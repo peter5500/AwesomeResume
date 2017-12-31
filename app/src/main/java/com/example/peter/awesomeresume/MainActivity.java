@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
             //edit data
             boolean isUpdate = false;
-            for(int i = 0; i < educations.size(); ++i) {
+            for (int i = 0; i < educations.size(); i++) {
                 Education education = educations.get(i);
                 if(education.id.equals(result.id)){
                     educations.set(i, result);
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
                 educations.add(result);
             }
 
-            setupEducationsUI();
+                setupEducationsUI();
         }
     }
 

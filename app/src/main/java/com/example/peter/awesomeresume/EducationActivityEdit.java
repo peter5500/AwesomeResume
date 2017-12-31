@@ -28,7 +28,7 @@ public class EducationActivityEdit extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //check if there are existing data need to be add in
-        Education education = getIntent().getParcelableExtra(KEY_EDUCATION);
+        education = getIntent().getParcelableExtra(KEY_EDUCATION);
         if (education != null){
             // will pop up if going to edit (education is not null)
             Toast.makeText(this, "editting", Toast.LENGTH_LONG).show();
@@ -80,8 +80,7 @@ public class EducationActivityEdit extends AppCompatActivity {
         education.endDate = DateUtils.stringToDate(
                 ((EditText) findViewById(R.id.education_edit_end_date)).getText().toString());
         education.courses = Arrays.asList(TextUtils.split(
-                ((EditText) findViewById(R.id.education_edit_courses)).getText().toString(),"\n"))
-                ;
+                ((EditText) findViewById(R.id.education_edit_courses)).getText().toString(),"\n"));
 
         Intent resultIntent = new Intent();
         resultIntent.putExtra(KEY_EDUCATION,education);
