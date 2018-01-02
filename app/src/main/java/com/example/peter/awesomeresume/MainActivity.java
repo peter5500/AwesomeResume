@@ -21,8 +21,8 @@ import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
-    private static int REQ_CODE_EDUCATION_EDIT = 100;
-    private static int REQ_CODE_PROJECT_EDIT = 101 ;
+    private static final int REQ_CODE_EDUCATION_EDIT = 100;
+    private static final int REQ_CODE_PROJECT_EDIT = 101 ;
     private BasicInfo basicInfo;
     private List<Education> educations;
     private List<Project> projects;
@@ -40,46 +40,49 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         //check if the data is get back from the education_edit
-        if (resultCode == RESULT_OK && requestCode == REQ_CODE_EDUCATION_EDIT){
-            Education result = data.getParcelableExtra(EducationActivityEdit.KEY_EDUCATION);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case REQ_CODE_EDUCATION_EDIT:
+                    Education result = data.getParcelableExtra(EducationActivityEdit.KEY_EDUCATION);
+                    //edit data
+                    boolean EisUpdate = false;
+                    for (int i = 0; i < educations.size(); i++) {
+                        Education education = educations.get(i);
+                        if (education.id.equals(result.id)) {
+                            educations.set(i, result);
+                            EisUpdate = true;
+                            break;
+                        }
+                    }
+                    //create data
+                    if (!EisUpdate) {
+                        //add the new data on the UI
+                        educations.add(result);
+                    }
 
-            //edit data
-            boolean isUpdate = false;
-            for (int i = 0; i < educations.size(); i++) {
-                Education education = educations.get(i);
-                if(education.id.equals(result.id)){
-                    educations.set(i, result);
-                    isUpdate = true;
+                    setupEducationsUI();
                     break;
-                }
-            }
-            //create data
-            if(!isUpdate){
-                //add the new data on the UI
-                educations.add(result);
-            }
 
-                setupEducationsUI();
-        }
+                case REQ_CODE_PROJECT_EDIT:
+                    Project resultP = data.getParcelableExtra(ProjectActivityEdit.KEY_PROJECT);
 
-        if (resultCode == RESULT_OK && requestCode == REQ_CODE_PROJECT_EDIT){
-            Project resultP = data.getParcelableExtra(ProjectActivityEdit.KEY_PROJECT);
+                    boolean PisUpdate = false;
+                    for (int i = 0; i < projects.size(); i++) {
+                        Project project = projects.get(i);
+                        if (project.id.equals(resultP.id)) {
+                            projects.set(i, resultP);
+                            PisUpdate = true;
+                            break;
+                        }
+                    }
 
-            boolean isUpdate = false;
-            for (int i = 0; i < projects.size(); i++) {
-                Project project = projects.get(i);
-                if(project.id.equals(resultP.id)){
-                    projects.set(i, resultP);
-                    isUpdate = true;
+                    if (!PisUpdate) {
+                        projects.add(resultP);
+                    }
+
+                    setUpProjectsUI();
                     break;
-                }
             }
-
-            if(!isUpdate){
-                projects.add(resultP);
-            }
-
-            setUpProjectsUI();
         }
     }
 
