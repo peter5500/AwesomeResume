@@ -56,7 +56,7 @@ public class EducationActivityEdit extends AppCompatActivity {
     }
 
     private void setupUI(Education education) {
-        //show the data
+        //show the data on the UI
         ((TextView) findViewById(R.id.education_edit_school)).setText(education.school);
         ((TextView) findViewById(R.id.education_edit_major)).setText(education.major);
         ((TextView) findViewById(R.id.education_edit_start_date)).setText(
