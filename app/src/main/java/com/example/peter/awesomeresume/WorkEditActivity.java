@@ -15,6 +15,8 @@ import java.util.Arrays;
 
 public class WorkEditActivity extends AppCompatActivity {
 
+    public static final String KEY_WORK = "work";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +56,7 @@ public class WorkEditActivity extends AppCompatActivity {
                 ((EditText) findViewById(R.id.work_edit_contents)).getText().toString(),"\n"));
 
         Intent resultIntent = new Intent();
-        resultIntent.putExtra("work", work);
+        resultIntent.putExtra(KEY_WORK, work);
         setResult(RESULT_OK, resultIntent);
     }
 

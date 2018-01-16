@@ -42,17 +42,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        //check if the data is get back from the education_edit
+
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
+                //check if the data is get back from the education_edit
                 case REQ_CODE_EDUCATION_EDIT:
-                    Education result = data.getParcelableExtra(EducationActivityEdit.KEY_EDUCATION);
+                    Education resultE = data.getParcelableExtra(EducationActivityEdit.KEY_EDUCATION);
                     //edit data
                     boolean EisUpdate = false;
                     for (int i = 0; i < educations.size(); i++) {
                         Education education = educations.get(i);
-                        if (education.id.equals(result.id)) {
-                            educations.set(i, result);
+                        if (education.id.equals(resultE.id)) {
+                            educations.set(i, resultE);
                             EisUpdate = true;
                             break;
                         }
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
                     //create data
                     if (!EisUpdate) {
                         //add the new data on the UI
-                        educations.add(result);
+                        educations.add(resultE);
                     }
 
                     setupEducationsUI();
@@ -85,6 +86,10 @@ public class MainActivity extends AppCompatActivity {
 
                     setUpProjectsUI();
                     break;
+
+                case REQ_CODE_WORK_EDIT:
+                    Work resulW = data.getParcelableExtra(WorkEditActivity.KEY_WORK);
+
             }
         }
     }
@@ -119,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
         setupBasicInfoUI();
         setupEducationsUI();
         setUpProjectsUI();
-        setUpWorskUI();
+        setUpWorksUI();
     }
 
     private void setupBasicInfoUI(){
@@ -178,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void setUpWorskUI() {
+    private void setUpWorksUI() {
         LinearLayout worksContainer = findViewById(R.id.works_container);
         for (Work work : works){
             View view = getLayoutInflater().inflate(R.layout.work_item, null);
