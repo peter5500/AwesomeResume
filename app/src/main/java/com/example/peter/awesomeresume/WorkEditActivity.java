@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.peter.awesomeresume.model.Work;
 import com.example.peter.awesomeresume.util.DateUtils;
@@ -17,12 +18,19 @@ public class WorkEditActivity extends AppCompatActivity {
 
     public static final String KEY_WORK = "work";
 
+    private Work work;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_work_edit);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        work = getIntent().getParcelableExtra(KEY_WORK);
+        if (work != null){
+            setupUI(work);
+        }
     }
 
     @Override
@@ -43,8 +51,21 @@ public class WorkEditActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void setupUI(Work work){
+        ((TextView) findViewById(R.id.work_edit_place)).setText(work.workPlace);
+        ((TextView) findViewById(R.id.work_edit_start_date)).setText(
+                DateUtils.dateToString(work.startDate));
+        ((TextView) findViewById(R.id.work_edit_end_date)).setText(
+                DateUtils.dateToString(work.endDate));
+        ((TextView) findViewById(R.id.work_edit_title)).setText(work.workTitle);
+        ((TextView) findViewById(R.id.work_edit_contents)).setText(
+                TextUtils.join("\n", work.contents));
+    }
+
     private void saveAndExit() {
-        Work work = new Work();
+        if (work == null){
+            work = new Work();
+        }
         work.workPlace = ((EditText) findViewById(R.id.work_edit_place)).getText().toString();
         work.workTitle = ((EditText) findViewById(R.id.work_edit_title)).getText().toString();
         work.workPlace = ((EditText) findViewById(R.id.work_edit_place)).getText().toString();
@@ -58,6 +79,7 @@ public class WorkEditActivity extends AppCompatActivity {
         Intent resultIntent = new Intent();
         resultIntent.putExtra(KEY_WORK, work);
         setResult(RESULT_OK, resultIntent);
+
         finish();
     }
 

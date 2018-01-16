@@ -48,10 +48,11 @@ public class MainActivity extends AppCompatActivity {
                 //check if the data is get back from the education_edit
                 case REQ_CODE_EDUCATION_EDIT:
                     Education resultE = data.getParcelableExtra(EducationActivityEdit.KEY_EDUCATION);
-                    //edit data
+
                     boolean EisUpdate = false;
                     for (int i = 0; i < educations.size(); i++) {
                         Education education = educations.get(i);
+                        //edit data
                         if (education.id.equals(resultE.id)) {
                             educations.set(i, resultE);
                             EisUpdate = true;
@@ -60,11 +61,11 @@ public class MainActivity extends AppCompatActivity {
                     }
                     //create data
                     if (!EisUpdate) {
-                        //update the new data on the UI
+                        //update the new data
                         educations.add(resultE);
                     }
 
-                    setupEducationsUI(); //update the layout
+                    setupEducationsUI(); //update the UI
                     break;
 
                 case REQ_CODE_PROJECT_EDIT:
@@ -89,7 +90,20 @@ public class MainActivity extends AppCompatActivity {
 
                 case REQ_CODE_WORK_EDIT:
                     Work resultW = data.getParcelableExtra(WorkEditActivity.KEY_WORK);
-                    works.add(resultW);
+
+                    boolean WisUpdate = false;
+                    for (int i = 0; i < works.size(); i++) {
+                        Work work = works.get(i);
+                        if (work.id.equals(resultW.id)) {
+                            works.set(i, resultW);
+                            WisUpdate = true;
+                            break;
+                        }
+                    }
+
+                    if (!WisUpdate) {
+                        works.add(resultW);
+                    }
                     setUpWorksUI();
                     break;
             }
@@ -151,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
                     //put the exist data into education_edit page
                     Intent intent = new Intent(MainActivity.this,EducationActivityEdit.class);
                     intent.putExtra(EducationActivityEdit.KEY_EDUCATION,education);
-                    startActivityForResult(intent,REQ_CODE_EDUCATION_EDIT);
+                    startActivityForResult(intent,REQ_CODE_EDUCATION_EDIT); //code that shows back from education_edit
                 }
             });
 
@@ -188,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
     private void setUpWorksUI() {
         LinearLayout worksContainer = findViewById(R.id.works_container);
         worksContainer.removeAllViews();
-        for (Work work : works){
+        for (final Work work : works){
             View view = getLayoutInflater().inflate(R.layout.work_item, null);
             String timeSpan = "(" + DateUtils.dateToString(work.startDate) + " ~ "
                     + DateUtils.dateToString(work.endDate) + ")";
@@ -196,6 +210,14 @@ public class MainActivity extends AppCompatActivity {
             ((TextView) view.findViewById(R.id.work_title)).setText(work.workTitle);
             ((TextView) view.findViewById(R.id.work_contents)).setText(formatItems(work.contents));
 
+            view.findViewById(R.id.edit_work_btn).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(MainActivity.this, WorkEditActivity.class);
+                    intent.putExtra(WorkEditActivity.KEY_WORK, work);
+                    startActivityForResult(intent, REQ_CODE_WORK_EDIT);
+                }
+            });
             worksContainer.addView(view);
         }
     }

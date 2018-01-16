@@ -7,6 +7,7 @@ import com.example.peter.awesomeresume.util.DateUtils;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by peter on 2018/1/15.
@@ -27,7 +28,7 @@ public class Work implements Parcelable{
     public List<String> contents;
 
     public Work(){
-
+        id = UUID.randomUUID().toString();
     }
 
     protected Work(Parcel in) {

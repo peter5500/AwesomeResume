@@ -69,11 +69,12 @@ public class EducationActivityEdit extends AppCompatActivity {
 
 
     private void saveAndExit() {
-        //if not null need to create new id
+        //if null need to create new id
         if (education == null){
             education = new Education();
         }
 
+        //if not null, won't change ID, and edit its content
         education.school = ((EditText) findViewById(R.id.education_edit_school)).getText().toString();
         education.major = ((EditText) findViewById(R.id.education_edit_major)).getText().toString();
         education.startDate = DateUtils.stringToDate(
