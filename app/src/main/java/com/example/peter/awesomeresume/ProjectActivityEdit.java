@@ -29,6 +29,8 @@ public class ProjectActivityEdit extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         project = getIntent().getParcelableExtra(KEY_PROJECT);
+
+        //check if there are existing data need to be add in
         if (project != null){
             Toast.makeText(this, "editting", Toast.LENGTH_LONG).show();
             setupUI(project);
