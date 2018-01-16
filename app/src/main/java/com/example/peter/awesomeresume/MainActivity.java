@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.example.peter.awesomeresume.model.BasicInfo;
 import com.example.peter.awesomeresume.model.Education;
 import com.example.peter.awesomeresume.model.Project;
+import com.example.peter.awesomeresume.model.Work;
 import com.example.peter.awesomeresume.util.DateUtils;
 
 
@@ -22,10 +23,12 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private static final int REQ_CODE_EDUCATION_EDIT = 100;
-    private static final int REQ_CODE_PROJECT_EDIT = 101 ;
+    private static final int REQ_CODE_PROJECT_EDIT = 101;
+    private static final int REQ_CODE_WORK_EDIT = 102;
     private BasicInfo basicInfo;
     private List<Education> educations;
     private List<Project> projects;
+    private List<Work> works;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,9 +108,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.add_working_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, WorkEditActivity.class);
+                startActivityForResult(intent, REQ_CODE_WORK_EDIT);
+            }
+        });
+
         setupBasicInfoUI();
         setupEducationsUI();
         setUpProjectsUI();
+        setUpWorskUI();
     }
 
     private void setupBasicInfoUI(){
@@ -166,6 +178,22 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void setUpWorskUI() {
+        LinearLayout worksContainer = findViewById(R.id.works_container);
+        for (Work work : works){
+            View view = getLayoutInflater().inflate(R.layout.work_item, null);
+            String timeSpan = "(" + DateUtils.dateToString(work.startDate) + " ~ "
+                    + DateUtils.dateToString(work.endDate) + ")";
+            ((TextView) view.findViewById(R.id.work_place)).setText(work.workPlace + timeSpan);
+            ((TextView) view.findViewById(R.id.work_title)).setText(work.workTitle);
+            ((TextView) view.findViewById(R.id.work_contents)).setText(formatItems(work.contents));
+
+            worksContainer.addView(view);
+        }
+    }
+
+
+
 
     private void fakeData(){
         basicInfo = new BasicInfo();
@@ -213,6 +241,19 @@ public class MainActivity extends AppCompatActivity {
 
         projects.add(project);
         projects.add(project2);
+
+        works = new ArrayList<>();
+        Work work = new Work();
+        work.workPlace = "National ChengChi University";
+        work.startDate = DateUtils.stringToDate("09/2016");
+        work.endDate = DateUtils.stringToDate("08/2017");
+        work.workTitle = "Assistant Software Engineer";
+        work.contents = new ArrayList<>();
+        work.contents.add("Accomplished the software applications’ test cases for the APPs and websites that developed by the department, and reported testing process and results to improve their performance.");
+        work.contents.add("Participated in designing APPs related to 3D printing project, among which the APP “Qmodel Creator” has been launched in AppStore and Google Play.");
+
+        works.add(work);
+
 
     }
 

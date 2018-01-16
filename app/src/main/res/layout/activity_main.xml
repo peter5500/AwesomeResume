@@ -162,7 +162,7 @@
 
         <LinearLayout
             android:layout_marginTop="4dp"
-            android:id="@+id/work_container"
+            android:id="@+id/works_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">

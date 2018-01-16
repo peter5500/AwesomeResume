@@ -11,5 +11,8 @@
     <string name="project_content">Project content</string>
     <string name="section_project">Project</string>
     <string name="section_work">Working Experience</string>
+    <string name="work_edit_place_hint">Work place</string>
+    <string name="work_edit_title_hint">Work title</string>
+    <string name="work_edit_contents_hint">Work contents</string>
 
 </resources>

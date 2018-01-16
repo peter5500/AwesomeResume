@@ -67,6 +67,7 @@ public class EducationActivityEdit extends AppCompatActivity {
                 TextUtils.join("\n", education.courses));
     }
 
+
     private void saveAndExit() {
         //if not null need to create new id
         if (education == null){
@@ -82,6 +83,7 @@ public class EducationActivityEdit extends AppCompatActivity {
         education.courses = Arrays.asList(TextUtils.split(
                 ((EditText) findViewById(R.id.education_edit_courses)).getText().toString(),"\n"));
 
+        //collect the data and send back to main activity
         Intent resultIntent = new Intent();
         resultIntent.putExtra(KEY_EDUCATION,education);
         setResult(RESULT_OK,resultIntent);
