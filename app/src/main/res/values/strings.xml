@@ -10,5 +10,6 @@
     <string name="project_edit_name">Project Name</string>
     <string name="project_content">Project content</string>
     <string name="section_project">Project</string>
+    <string name="section_work">Working Experience</string>
 
 </resources>

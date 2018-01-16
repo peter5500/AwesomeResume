@@ -11,5 +11,6 @@
     <string name="section_project">項目經歷</string>
     <string name="project_edit_name">項目名稱</string>
     <string name="project_content">內容</string>
+    <string name="section_work">工作經驗</string>
 
 </resources>

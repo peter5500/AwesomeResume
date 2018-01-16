@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/project_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            tools:text="Software Engineer Assistant (09/2016 ~ 08/2017)" />
+
+        <ImageButton
+            android:id="@+id/edit_project_btn"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_mode_edit_black_18px"
+            android:alpha="0.7"
+            android:background="?attr/selectableItemBackground"
+            android:contentDescription="@string/section_project"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/project_contents"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        tools:text="- Accomplished the software applications’ test cases for the APPs and websites that developed by the department, and reported testing process and results to improve their performance.\n- Participated in designing APPs related to 3D printing project, among which the APP “Qmodel Creator” has been launched in AppStore and Google Play.\n" />
+
+</LinearLayout>
