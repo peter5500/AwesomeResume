@@ -58,6 +58,7 @@ public class WorkEditActivity extends AppCompatActivity {
         Intent resultIntent = new Intent();
         resultIntent.putExtra(KEY_WORK, work);
         setResult(RESULT_OK, resultIntent);
+        finish();
     }
 
 }

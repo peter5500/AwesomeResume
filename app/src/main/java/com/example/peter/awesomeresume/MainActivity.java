@@ -60,11 +60,11 @@ public class MainActivity extends AppCompatActivity {
                     }
                     //create data
                     if (!EisUpdate) {
-                        //add the new data on the UI
+                        //update the new data on the UI
                         educations.add(resultE);
                     }
 
-                    setupEducationsUI();
+                    setupEducationsUI(); //update the layout
                     break;
 
                 case REQ_CODE_PROJECT_EDIT:
@@ -88,8 +88,10 @@ public class MainActivity extends AppCompatActivity {
                     break;
 
                 case REQ_CODE_WORK_EDIT:
-                    Work resulW = data.getParcelableExtra(WorkEditActivity.KEY_WORK);
-
+                    Work resultW = data.getParcelableExtra(WorkEditActivity.KEY_WORK);
+                    works.add(resultW);
+                    setUpWorksUI();
+                    break;
             }
         }
     }
@@ -136,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout educationsContainer = findViewById(R.id.educations_container);
         educationsContainer.removeAllViews(); //avoid to add duplicate data
         for (final Education education : educations){
-            //將布局文件(education_item)轉成view
+            //將布局文件(education_item)轉成view, 數據轉入介面
             View view = getLayoutInflater().inflate(R.layout.education_item,null);
             String timeSpan =  "(" + DateUtils.dateToString(education.startDate) + " ~ "
                     + DateUtils.dateToString(education.endDate) + ")";
@@ -185,6 +187,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setUpWorksUI() {
         LinearLayout worksContainer = findViewById(R.id.works_container);
+        worksContainer.removeAllViews();
         for (Work work : works){
             View view = getLayoutInflater().inflate(R.layout.work_item, null);
             String timeSpan = "(" + DateUtils.dateToString(work.startDate) + " ~ "
