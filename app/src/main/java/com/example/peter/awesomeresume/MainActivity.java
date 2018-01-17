@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -16,6 +17,7 @@ import com.example.peter.awesomeresume.model.Education;
 import com.example.peter.awesomeresume.model.Project;
 import com.example.peter.awesomeresume.model.Work;
 import com.example.peter.awesomeresume.util.DateUtils;
+import com.example.peter.awesomeresume.util.ImageUtils;
 import com.example.peter.awesomeresume.util.ModelUtils;
 import com.google.gson.reflect.TypeToken;
 
@@ -28,10 +30,12 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQ_CODE_EDUCATION_EDIT = 100;
     private static final int REQ_CODE_PROJECT_EDIT = 101;
     private static final int REQ_CODE_WORK_EDIT = 102;
+    private static final int REQ_CODE_BASIC_EDIT = 103;
 
     private static final String MODEL_EDUCATIONS = "educations";
     private static final String MODEL_PROJECTS = "projects";
     private static final String MODEL_WORKS = "works";
+    private static final String MODEL_BASIC = "basic";
 
     private BasicInfo basicInfo;
     private List<Education> educations;
@@ -48,6 +52,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadData() {
+        BasicInfo savedBasicInfo = ModelUtils.read(this,
+                MODEL_BASIC,
+                new TypeToken<BasicInfo>(){});
+        basicInfo = savedBasicInfo == null ? new BasicInfo() : savedBasicInfo;
+
         List<Education> savedEducation = ModelUtils.read(this,
                 MODEL_EDUCATIONS,
                 new TypeToken<List<Education>>(){});
@@ -103,6 +112,11 @@ public class MainActivity extends AppCompatActivity {
                         updateWork(work);
                     }
                     break;
+
+                case REQ_CODE_BASIC_EDIT:
+                    BasicInfo basicInfo = data.getParcelableExtra(BasicActivityEdit.KEY_BASIC_INFO);
+                    updateBasicInfo(basicInfo);
+                    break;
             }
         }
     }
@@ -137,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        setupBasicInfoUI();
+        setupBasicInfo();
         setupEducations();
         setupProjects();
         setupWorks();
@@ -145,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupBasicInfoUI(){
         ((TextView) findViewById(R.id.name)).setText(basicInfo.name);
-        ((TextView) findViewById(R.id.mail)).setText(basicInfo.mail);
+        ((TextView) findViewById(R.id.email)).setText(basicInfo.email);
     }
 
     private void setupEducationsUI(){
@@ -228,7 +242,7 @@ public class MainActivity extends AppCompatActivity {
     private void fakeData(){
         basicInfo = new BasicInfo();
         basicInfo.name = "Peter Cheng";
-        basicInfo.mail = "peter55005050@gmail.com";
+        basicInfo.email = "peter55005050@gmail.com";
 
         educations = new ArrayList<>();
         Education education = new Education();
@@ -469,6 +483,39 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent, REQ_CODE_WORK_EDIT);
             }
         });
+    }
+
+    private void
+    setupBasicInfo() {
+        ((TextView) findViewById(R.id.name)).setText(TextUtils.isEmpty(basicInfo.name)
+                ? "Your name"
+                : basicInfo.name);
+        ((TextView) findViewById(R.id.email)).setText(TextUtils.isEmpty(basicInfo.email)
+                ? "Your email"
+                : basicInfo.email);
+
+        ImageView userPicture = (ImageView) findViewById(R.id.user_picture);
+        if (basicInfo.imageUri != null) {
+            ImageUtils.loadImage(this, basicInfo.imageUri, userPicture);
+        } else {
+            userPicture.setImageResource(R.drawable.user_ghost);
+        }
+
+        findViewById(R.id.edit_basic_info).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, BasicActivityEdit.class);
+                intent.putExtra(BasicActivityEdit.KEY_BASIC_INFO, basicInfo);
+                startActivityForResult(intent, REQ_CODE_BASIC_EDIT);
+            }
+        });
+    }
+
+    private void updateBasicInfo(BasicInfo basicInfo) {
+        ModelUtils.save(this, MODEL_BASIC, basicInfo);
+
+        this.basicInfo = basicInfo;
+        setupBasicInfo();
     }
 
     private static String formatItems(List<String> items){

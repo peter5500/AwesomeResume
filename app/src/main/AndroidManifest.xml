@@ -18,7 +18,8 @@
         </activity>
         <activity android:name=".EducationActivityEdit" />
         <activity android:name=".ProjectActivityEdit" />
-        <activity android:name=".WorkEditActivity"></activity>
+        <activity android:name=".WorkEditActivity" />
+        <activity android:name=".BasicActivityEdit"></activity>
     </application>
 
 </manifest>

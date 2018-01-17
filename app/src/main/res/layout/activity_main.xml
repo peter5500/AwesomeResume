@@ -12,57 +12,54 @@
         android:padding="@dimen/spacing_medium"
         tools:context="com.example.peter.awesomeresume.MainActivity">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
+            android:layout_height="wrap_content">
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:id="@+id/user_name_layout"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical">
-
-                    <TextView
-                        android:id="@+id/name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="23sp"
-                        tools:text="Peter Cheng"
-                        />
-
-                    <ImageButton
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_mode_edit_black_18px"
-                        android:background="?attr/selectableItemBackground"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="8dp"
-                        />
-
-                </LinearLayout>
+                android:layout_marginBottom="@dimen/spacing_small"
+                android:layout_alignParentLeft="true"
+                android:layout_toLeftOf="@+id/user_picture"
+                android:gravity="center_vertical">
 
                 <TextView
-                    android:id="@+id/mail"
+                    android:id="@+id/name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="peter55005050@gmail.com"
-                    android:layout_marginTop="8dp"/>
+                    android:textSize="@dimen/caption_text_size"
+                    tools:text="Your name" />
+
+                <ImageButton
+                    android:id="@+id/edit_basic_info"
+                    android:layout_width="@dimen/icon_button_size"
+                    android:layout_height="@dimen/icon_button_size"
+                    android:layout_marginLeft="@dimen/spacing_xsmall"
+                    android:src="@drawable/ic_mode_edit_black_18px"
+                    android:background="?attr/selectableItemBackground" />
 
             </LinearLayout>
 
-            <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:background="#ff1100"
-                />
+            <TextView
+                android:id="@+id/email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/user_name_layout"
+                android:layout_toLeftOf="@+id/user_picture"
+                tools:text="Your email" />
 
-        </LinearLayout>
+            <ImageView
+                android:id="@+id/user_picture"
+                android:layout_width="@dimen/user_picture_size"
+                android:layout_height="@dimen/user_picture_size"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/user_ghost"
+                android:contentDescription="@string/user_picture"/>
+
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

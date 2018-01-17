@@ -18,5 +18,6 @@
     <string name="choose_user_picture">User picture</string>
     <string name="basic_info_edit_name_hint">Name</string>
     <string name="basic_info_edit_email_hint">Email</string>
+    <string name="user_picture">User picture</string>
 
 </resources>
