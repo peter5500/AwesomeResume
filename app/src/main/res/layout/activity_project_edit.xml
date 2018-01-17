@@ -41,4 +41,13 @@
         android:layout_height="wrap_content"
         android:hint="@string/project_content"/>
 
+    <TextView
+        android:id="@+id/project_edit_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:layout_gravity="right"
+        android:text="@string/action_delete"
+        style="@style/AppTheme.TextView.DeleteButton"/>
+
 </LinearLayout>
