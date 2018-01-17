@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String MODEL_EDUCATIONS = "educations";
     private static final String MODEL_PROJECTS = "projects";
+    private static final String MODEL_WORKS = "works";
 
     private BasicInfo basicInfo;
     private List<Education> educations;
@@ -56,6 +57,13 @@ public class MainActivity extends AppCompatActivity {
                 MODEL_PROJECTS,
                 new TypeToken<List<Project>>(){});
         projects = savedProjects == null ? new ArrayList<Project>() : savedProjects;
+
+        List<Work> savedWorks = ModelUtils.read(this,
+                MODEL_WORKS,
+                new TypeToken<List<Work>>(){});
+        works = savedWorks == null ? new ArrayList<Work>() : savedWorks;
+
+
     }
 
     @Override
@@ -86,23 +94,14 @@ public class MainActivity extends AppCompatActivity {
                     }
                     break;
 
-                    case REQ_CODE_WORK_EDIT:
-                    Work resultW = data.getParcelableExtra(WorkEditActivity.KEY_WORK);
-
-                    boolean WisUpdate = false;
-                    for (int i = 0; i < works.size(); i++) {
-                        Work work = works.get(i);
-                        if (work.id.equals(resultW.id)) {
-                            works.set(i, resultW);
-                            WisUpdate = true;
-                            break;
-                        }
+                case REQ_CODE_WORK_EDIT:
+                    String workId = data.getStringExtra(WorkEditActivity.KEY_WORK_ID);
+                    if (workId != null) {
+                        deleteWork(workId);
+                    } else {
+                        Work work = data.getParcelableExtra(WorkEditActivity.KEY_WORK);
+                        updateWork(work);
                     }
-
-                    if (!WisUpdate) {
-                        works.add(resultW);
-                    }
-                    setUpWorksUI();
                     break;
             }
         }
@@ -129,9 +128,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.add_working_btn).setOnClickListener(new View.OnClickListener() {
+        ImageButton addWorkBtn = (ImageButton) findViewById(R.id.add_working_btn);
+        addWorkBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, WorkEditActivity.class);
                 startActivityForResult(intent, REQ_CODE_WORK_EDIT);
             }
@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
         setupBasicInfoUI();
         setupEducations();
         setupProjects();
-        setUpWorksUI();
+        setupWorks();
     }
 
     private void setupBasicInfoUI(){
@@ -397,12 +397,76 @@ public class MainActivity extends AppCompatActivity {
                 .setText(project.projectName + " (" + dateString + ")");
         ((TextView) projectView.findViewById(R.id.project_contents))
                 .setText(formatItems(project.contents));
+
         projectView.findViewById(R.id.edit_project_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ProjectActivityEdit.class);
                 intent.putExtra(ProjectActivityEdit.KEY_PROJECT, project);
                 startActivityForResult(intent, REQ_CODE_PROJECT_EDIT);
+            }
+        });
+    }
+
+    private void updateWork(Work work) {
+        boolean found = false;
+        for (int i = 0; i < works.size(); ++i) {
+            Work e = works.get(i);
+            if (TextUtils.equals(e.id, work.id)) {
+                found = true;
+                works.set(i, work);
+                break;
+            }
+        }
+
+        if (!found) {
+            works.add(work);
+        }
+
+        ModelUtils.save(this, MODEL_WORKS, works);
+        setupWorks();
+    }
+
+    private void deleteWork(@NonNull String workId) {
+        for (int i = 0; i < works.size(); ++i) {
+            Work e = works.get(i);
+            if (TextUtils.equals(e.id, workId)) {
+                works.remove(i);
+                break;
+            }
+        }
+
+        ModelUtils.save(this, MODEL_WORKS, works);
+        setupWorks();
+    }
+
+    private void setupWorks() {
+        LinearLayout workListLayout = (LinearLayout) findViewById(R.id.works_container);
+        workListLayout.removeAllViews();
+        for (Work work : works) {
+            View workView = getLayoutInflater().inflate(R.layout.work_item, null);
+            setupWorks(workView, work);
+            workListLayout.addView(workView);
+        }
+    }
+
+    private void setupWorks(@NonNull View workView, final Work work) {
+        String dateString = DateUtils.dateToString(work.startDate)
+                + " ~ " + DateUtils.dateToString(work.endDate);
+        ((TextView) workView.findViewById(R.id.work_place))
+                .setText(work.workPlace + " (" + dateString + ")");
+        ((TextView) workView.findViewById(R.id.work_title))
+                .setText(work.workTitle);
+        ((TextView) workView.findViewById(R.id.work_contents))
+                .setText(formatItems(work.contents));
+
+        ImageButton editWorkBtn = (ImageButton) workView.findViewById(R.id.edit_work_btn);
+        editWorkBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, WorkEditActivity.class);
+                intent.putExtra(WorkEditActivity.KEY_WORK, work);
+                startActivityForResult(intent, REQ_CODE_WORK_EDIT);
             }
         });
     }

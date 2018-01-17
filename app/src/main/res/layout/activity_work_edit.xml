@@ -47,7 +47,7 @@
         android:hint="@string/work_edit_contents_hint"/>
 
     <TextView
-        android:id="@+id/education_edit_delete"
+        android:id="@+id/work_edit_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_small"
