@@ -157,84 +157,84 @@ public class MainActivity extends AppCompatActivity {
         setupWorks();
     }
 
-    private void setupBasicInfoUI(){
-        ((TextView) findViewById(R.id.name)).setText(basicInfo.name);
-        ((TextView) findViewById(R.id.email)).setText(basicInfo.email);
-    }
+//    private void setupBasicInfoUI(){
+//        ((TextView) findViewById(R.id.name)).setText(basicInfo.name);
+//        ((TextView) findViewById(R.id.email)).setText(basicInfo.email);
+//    }
+//
+//    private void setupEducationsUI(){
+//        LinearLayout educationsContainer = findViewById(R.id.educations_container);
+//        educationsContainer.removeAllViews(); //avoid to add duplicate data
+//        for (final Education education : educations){
+//            //將布局文件(education_item)轉成view, 數據轉入介面
+//            View view = getLayoutInflater().inflate(R.layout.education_item,null);
+//            String timeSpan =  "(" + DateUtils.dateToString(education.startDate) + " ~ "
+//                    + DateUtils.dateToString(education.endDate) + ")";
+//            ((TextView) view.findViewById(R.id.education_school)).setText(education.school + timeSpan);
+//            ((TextView) view.findViewById(R.id.education_courses)).setText(formatItems(education.courses));
+//
+//            view.findViewById(R.id.edit_education_btn).setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    //put the exist data into education_edit page
+//                    Intent intent = new Intent(MainActivity.this,EducationActivityEdit.class);
+//                    intent.putExtra(EducationActivityEdit.KEY_EDUCATION,education);
+//                    startActivityForResult(intent,REQ_CODE_EDUCATION_EDIT); //code that shows back from education_edit
+//                }
+//            });
+//
+//            //將內存中的view添加到已經存在介面上的容器
+//            educationsContainer.addView(view);
+//        }
+//    }
 
-    private void setupEducationsUI(){
-        LinearLayout educationsContainer = findViewById(R.id.educations_container);
-        educationsContainer.removeAllViews(); //avoid to add duplicate data
-        for (final Education education : educations){
-            //將布局文件(education_item)轉成view, 數據轉入介面
-            View view = getLayoutInflater().inflate(R.layout.education_item,null);
-            String timeSpan =  "(" + DateUtils.dateToString(education.startDate) + " ~ "
-                    + DateUtils.dateToString(education.endDate) + ")";
-            ((TextView) view.findViewById(R.id.education_school)).setText(education.school + timeSpan);
-            ((TextView) view.findViewById(R.id.education_courses)).setText(formatItems(education.courses));
+//    private void setUpProjectsUI() {
+//        LinearLayout projectsContainer = findViewById(R.id.projects_container);
+//        projectsContainer.removeAllViews();
+//        for (final Project project : projects) {
+//             View view = getLayoutInflater().inflate(R.layout.project_item, null);
+//            String timeSpan = "(" + DateUtils.dateToString(project.startDate) + " ~ "
+//                    + DateUtils.dateToString(project.endDate) + ")";
+//            ((TextView) view.findViewById(R.id.project_name)).setText(project.projectName + timeSpan);
+//            ((TextView) view.findViewById(R.id.project_contents)).setText(formatItems(project.contents));
+//
+//            view.findViewById(R.id.edit_project_btn).setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Intent intent = new Intent(MainActivity.this, ProjectActivityEdit.class);
+//                    intent.putExtra(ProjectActivityEdit.KEY_PROJECT, project);
+//                    startActivityForResult(intent, REQ_CODE_PROJECT_EDIT);
+//                }
+//            });
+//
+//            //將內存中的view添加到已經存在介面上的容器
+//            projectsContainer.addView(view);
+//
+//        }
+//    }
 
-            view.findViewById(R.id.edit_education_btn).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //put the exist data into education_edit page
-                    Intent intent = new Intent(MainActivity.this,EducationActivityEdit.class);
-                    intent.putExtra(EducationActivityEdit.KEY_EDUCATION,education);
-                    startActivityForResult(intent,REQ_CODE_EDUCATION_EDIT); //code that shows back from education_edit
-                }
-            });
-
-            //將內存中的view添加到已經存在介面上的容器
-            educationsContainer.addView(view);
-        }
-    }
-
-    private void setUpProjectsUI() {
-        LinearLayout projectsContainer = findViewById(R.id.projects_container);
-        projectsContainer.removeAllViews();
-        for (final Project project : projects) {
-             View view = getLayoutInflater().inflate(R.layout.project_item, null);
-            String timeSpan = "(" + DateUtils.dateToString(project.startDate) + " ~ "
-                    + DateUtils.dateToString(project.endDate) + ")";
-            ((TextView) view.findViewById(R.id.project_name)).setText(project.projectName + timeSpan);
-            ((TextView) view.findViewById(R.id.project_contents)).setText(formatItems(project.contents));
-
-            view.findViewById(R.id.edit_project_btn).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(MainActivity.this, ProjectActivityEdit.class);
-                    intent.putExtra(ProjectActivityEdit.KEY_PROJECT, project);
-                    startActivityForResult(intent, REQ_CODE_PROJECT_EDIT);
-                }
-            });
-
-            //將內存中的view添加到已經存在介面上的容器
-            projectsContainer.addView(view);
-
-        }
-    }
-
-    private void setUpWorksUI() {
-        LinearLayout worksContainer = findViewById(R.id.works_container);
-        worksContainer.removeAllViews();
-        for (final Work work : works){
-            View view = getLayoutInflater().inflate(R.layout.work_item, null);
-            String timeSpan = "(" + DateUtils.dateToString(work.startDate) + " ~ "
-                    + DateUtils.dateToString(work.endDate) + ")";
-            ((TextView) view.findViewById(R.id.work_place)).setText(work.workPlace + timeSpan);
-            ((TextView) view.findViewById(R.id.work_title)).setText(work.workTitle);
-            ((TextView) view.findViewById(R.id.work_contents)).setText(formatItems(work.contents));
-
-            view.findViewById(R.id.edit_work_btn).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(MainActivity.this, WorkEditActivity.class);
-                    intent.putExtra(WorkEditActivity.KEY_WORK, work);
-                    startActivityForResult(intent, REQ_CODE_WORK_EDIT);
-                }
-            });
-            worksContainer.addView(view);
-        }
-    }
+//    private void setUpWorksUI() {
+//        LinearLayout worksContainer = findViewById(R.id.works_container);
+//        worksContainer.removeAllViews();
+//        for (final Work work : works){
+//            View view = getLayoutInflater().inflate(R.layout.work_item, null);
+//            String timeSpan = "(" + DateUtils.dateToString(work.startDate) + " ~ "
+//                    + DateUtils.dateToString(work.endDate) + ")";
+//            ((TextView) view.findViewById(R.id.work_place)).setText(work.workPlace + timeSpan);
+//            ((TextView) view.findViewById(R.id.work_title)).setText(work.workTitle);
+//            ((TextView) view.findViewById(R.id.work_contents)).setText(formatItems(work.contents));
+//
+//            view.findViewById(R.id.edit_work_btn).setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Intent intent = new Intent(MainActivity.this, WorkEditActivity.class);
+//                    intent.putExtra(WorkEditActivity.KEY_WORK, work);
+//                    startActivityForResult(intent, REQ_CODE_WORK_EDIT);
+//                }
+//            });
+//            worksContainer.addView(view);
+//        }
+//    }
 
 
 
