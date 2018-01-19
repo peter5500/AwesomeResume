@@ -475,7 +475,8 @@ public class MainActivity extends AppCompatActivity {
                 .setText(formatItems(work.contents));
 
         ImageButton editWorkBtn = (ImageButton) workView.findViewById(R.id.edit_work_btn);
-        editWorkBtn.setOnClickListener(new View.OnClickListener() {
+        editWorkBtn.setOnClickListener(
+                new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, WorkEditActivity.class);

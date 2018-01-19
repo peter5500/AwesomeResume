@@ -8,9 +8,12 @@
     <string name="end_date">結束時間(MM/YYYY)</string>
     <string name="education_edit_courses_hint">課程</string>
     <string name="save">儲存</string>
+    <string name="action_delete">刪除</string>
     <string name="section_project">項目經歷</string>
     <string name="project_edit_name">項目名稱</string>
     <string name="project_content">內容</string>
     <string name="section_work">工作經驗</string>
+    <string name="basic_info_edit_name_hint">姓名</string>
+    <string name="basic_info_edit_email_hint">電子郵件</string>
 
 </resources>
